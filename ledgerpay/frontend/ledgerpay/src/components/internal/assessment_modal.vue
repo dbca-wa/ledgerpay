@@ -78,14 +78,14 @@ export default {
               type: String,
               default: '',
           },
-          feeWaiver: {
+          ledgerPay: {
               type: Object,
               required: true,
           },
       },
     computed: {
         documentActionUrl: function() {
-            return `/api/feewaivers/${this.feeWaiver.id}/process_comms_log_document/`;
+            return `/api/ledgerpays/${this.ledgerPay.id}/process_comms_log_document/`;
         },
     },
     filters: {
@@ -121,27 +121,27 @@ export default {
       },
       ok: async function(){        
           this.processingWorkflow = true;
-          let post_url = '/api/feewaivers/' + this.feeWaiver.id + '/workflow_action/'
+          let post_url = '/api/ledgerpays/' + this.ledgerPay.id + '/workflow_action/'
           let payload = new FormData(this.form);
           
           this.workflowDetails ? payload.append('comments', this.workflowDetails) : null;
           this.$refs.comms_log_file.commsLogId ? payload.append('comms_log_id', this.$refs.comms_log_file.commsLogId) : null;
           this.workflow_type ? payload.append('workflow_type', this.workflow_type) : null;
           this.modalTitle ? payload.append('email_subject', this.modalTitle) : null;
-          let feeWaiverRes = await this.$parent.parentSave(false)
-          if (feeWaiverRes.ok) {
+          let ledgerPayRes = await this.$parent.parentSave(false)
+          if (ledgerPayRes.ok) {
               try {
                   let res = await Vue.http.post(post_url, payload);
                   if (res.ok) {    
                       this.$router.push({
-                          name: 'fee-waiver-dash',
+                          name: 'ledger-pay-dash',
                       });
                   }
               } catch(err) {
                   this.errorResponse = 'Error:' + err.statusText;
               } 
           } else {
-              this.errorResponse = 'Error:' + feeWaiverRes.statusText;
+              this.errorResponse = 'Error:' + ledgerPayRes.statusText;
           }
           this.processingWorkflow = false;
       },

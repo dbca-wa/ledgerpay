@@ -1,5 +1,5 @@
-import FeeWaiverForm from '../../feewaiver_form.vue'
-import FeeWaiverSubmit from '../feewaiver_submit.vue'
+import LedgerPayForm from '../../ledgerpay_form.vue'
+import LedgerPaySubmit from '../ledgerpay_submit.vue'
 export default
 {
     path: '/external',
@@ -13,13 +13,13 @@ export default
     children: [
         {
             path: '/',
-            component: FeeWaiverForm,
-            name: 'external-feewaiver-form'
+            component: LedgerPayForm,
+            name: 'external-ledgerpay-form'
         },
         {
             path: 'submit',
-            component: FeeWaiverSubmit,
-            name:"submit_feewaiver"
+            component: LedgerPaySubmit,
+            name:"submit_ledgerpay"
         },
     ]
 }

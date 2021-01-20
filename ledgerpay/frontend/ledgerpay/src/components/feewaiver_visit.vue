@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div v-if="visit.camping_requested" class="col-sm-10">
-                    <div v-if="isInternal" :key="feeWaiverId" class="form-group">
+                    <div v-if="isInternal" :key="ledgerPayId" class="form-group">
                         <div class="row">
                             <label class="col-sm-4">Applicable camping waiver</label>
                                 <div class="col-sm-8">
@@ -179,7 +179,7 @@
     require('eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
 
     export default {
-        name: 'FeeWaiverVisit',
+        name: 'LedgerPayVisit',
         props:{
             isInternal: {
                 type: Boolean,
@@ -211,7 +211,7 @@
                 type: Array,
                 required:true,
             },
-            feeWaiverId:{
+            ledgerPayId:{
                 type: String,
                 //required: true,
             },
@@ -317,7 +317,7 @@
             recalcVisits: async function() {
                 await this.$nextTick();
                 this.$emit('recalc-visits-flag');
-                let url = `/api/feewaivers/${this.feeWaiverId}/log_visit_action/`;
+                let url = `/api/ledgerpays/${this.ledgerPayId}/log_visit_action/`;
                 await this.$http.post(url,this.visit);
             },
             /*

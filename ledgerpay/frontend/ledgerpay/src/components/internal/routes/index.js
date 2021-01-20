@@ -1,5 +1,5 @@
 import InternalDashboard from '../dashboard.vue'
-import FeeWaiverAssessment from '../assessment.vue'
+import LedgerPayAssessment from '../assessment.vue'
 export default
 {
     path: '/internal',
@@ -14,10 +14,10 @@ export default
         {
             path: '/',
             component: InternalDashboard,
-            name:"fee-waiver-dash"
+            name:"ledger-pay-dash"
         },
         {
-            path: 'fee_waiver',
+            path: 'ledger_pay',
             component: {
                 render(c)
                 {
@@ -26,9 +26,9 @@ export default
             },
             children: [
                 {
-                    path: ':fee_waiver_id',
-                    component: FeeWaiverAssessment,
-                    name:"fee-waiver-assessment"
+                    path: ':ledger_pay_id',
+                    component: LedgerPayAssessment,
+                    name:"ledger-pay-assessment"
                 },
             ]
         },

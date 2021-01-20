@@ -1,11 +1,11 @@
 <template id="proposal_dashboard">
     <div class="container">
-        <FormSection :formCollapse="false" label="Fee Waiver Requests" Index="fee_waiver_requests">
+        <FormSection :formCollapse="false" label="Ledger Pay Requests" Index="ledger_pay_requests">
                     <div class="row">
                         <div class="col-md-3">
                             <label for="">Lodged From</label>
-                            <div class="input-group date" ref="feewaiverDateFromPicker">
-                                <input type="text" class="form-control" placeholder="DD/MM/YYYY" v-model="filterFeeWaiverLodgedFrom">
+                            <div class="input-group date" ref="ledgerpayDateFromPicker">
+                                <input type="text" class="form-control" placeholder="DD/MM/YYYY" v-model="filterLedgerPayLodgedFrom">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -13,8 +13,8 @@
                         </div>
                         <div class="col-md-3">
                             <label for="">Lodged To</label>
-                            <div class="input-group date" ref="feewaiverDateToPicker">
-                                <input type="text" class="form-control" placeholder="DD/MM/YYYY" v-model="filterFeeWaiverLodgedTo">
+                            <div class="input-group date" ref="ledgerpayDateToPicker">
+                                <input type="text" class="form-control" placeholder="DD/MM/YYYY" v-model="filterLedgerPayLodgedTo">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -23,16 +23,16 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Status</label>
-                                <select class="form-control" v-model="filterFeeWaiverStatus">
+                                <select class="form-control" v-model="filterLedgerPayStatus">
                                     <option value="All">All</option>
-                                    <option v-for="s in feewaiver_status" :value="s">{{s}}</option>
+                                    <option v-for="s in ledgerpay_status" :value="s">{{s}}</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12" style="margin-top:25px;">
-                            <datatable ref="feewaiver_datatable" :id="datatable_id" :dtOptions="feewaiver_options" :dtHeaders="feewaiver_headers"/>
+                            <datatable ref="ledgerpay_datatable" :id="datatable_id" :dtOptions="ledgerpay_options" :dtHeaders="ledgerpay_headers"/>
                         </div>
                     </div>
         </FormSection>
@@ -49,19 +49,19 @@ import {
     helpers
 }from '@/utils/hooks'
 export default {
-    name: 'FeeWaiverDash',
+    name: 'LedgerPayDash',
     props: {
     },
     data() {
         let vm = this;
         return {
-            url: '/api/feewaivers_paginated/feewaiver_internal/?format=datatables',
+            url: '/api/ledgerpays_paginated/ledgerpay_internal/?format=datatables',
             pBody: 'pBody' + vm._uid,
-            datatable_id: 'feewaiver-datatable-'+vm._uid,
+            datatable_id: 'ledgerpay-datatable-'+vm._uid,
             show_spinner: false, 
-            filterFeeWaiverStatus: 'All',
-            filterFeeWaiverLodgedFrom: '',
-            filterFeeWaiverLodgedTo: '',
+            filterLedgerPayStatus: 'All',
+            filterLedgerPayLodgedFrom: '',
+            filterLedgerPayLodgedTo: '',
             dashboardTitle: '',
             dashboardDescription: '',
             dateFormat: 'DD/MM/YYYY',
@@ -72,9 +72,9 @@ export default {
                 keepInvalid:true,
                 allowInputToggle:true
             },
-            feewaiver_status:[],
-            feewaiver_headers:["Lodgement Number", "Organisation", "Status", "Lodged on", "Document", "Assigned To", "", "", "Action", "Participant", "Comments to applicant"],
-            feewaiver_options:{
+            ledgerpay_status:[],
+            ledgerpay_headers:["Lodgement Number", "Organisation", "Status", "Lodged on", "Document", "Assigned To", "", "", "Action", "Participant", "Comments to applicant"],
+            ledgerpay_options:{
                 language: {
                     processing: "<i class='fa fa-4x fa-spinner fa-spin'></i>"
                 },
@@ -84,13 +84,13 @@ export default {
                     [0, 'desc']
                     ],
                 ajax: {
-                    "url": '/api/feewaivers_paginated/feewaiver_internal/?format=datatables',
+                    "url": '/api/ledgerpays_paginated/ledgerpay_internal/?format=datatables',
                     "dataSrc": 'data',
                     // adding extra GET params for Custom filtering
                     "data": function ( d ) {
-                        d.date_from = vm.filterFeeWaiverLodgedFrom != '' && vm.filterFeeWaiverLodgedFrom != null ? moment(vm.filterFeeWaiverLodgedFrom, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
-                        d.date_to = vm.filterFeeWaiverLodgedTo != '' && vm.filterFeeWaiverLodgedTo != null ? moment(vm.filterFeeWaiverLodgedTo, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
-                        d.processing_status = vm.filterFeeWaiverStatus;
+                        d.date_from = vm.filterLedgerPayLodgedFrom != '' && vm.filterLedgerPayLodgedFrom != null ? moment(vm.filterLedgerPayLodgedFrom, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
+                        d.date_to = vm.filterLedgerPayLodgedTo != '' && vm.filterLedgerPayLodgedTo != null ? moment(vm.filterLedgerPayLodgedTo, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
+                        d.processing_status = vm.filterLedgerPayStatus;
                     }
 
                 },
@@ -137,7 +137,7 @@ export default {
                         visible: true,
                     },
                     {
-                        data: "latest_feewaiver_document",
+                        data: "latest_ledgerpay_document",
                         visible: true,
                         orderable: false,
                         mRender:function(data,type,full){
@@ -172,9 +172,9 @@ export default {
                             let links = full.action_shortcut;
                             if(full.can_process){
 
-                                links +=  `<a href='/internal/fee_waiver/${full.id}'>Process</a><br/>`;
+                                links +=  `<a href='/internal/ledger_pay/${full.id}'>Process</a><br/>`;
                             } else{
-                                links +=  `<a href='/internal/fee_waiver/${full.id}'>View</a><br/>`;
+                                links +=  `<a href='/internal/ledger_pay/${full.id}'>View</a><br/>`;
                             }
                             return links;
                         },
@@ -236,7 +236,7 @@ export default {
                 ],
                 processing: true,
                 initComplete: function() {
-                    vm.$refs.feewaiver_datatable.vmDataTable.columns.adjust().draw();
+                    vm.$refs.ledgerpay_datatable.vmDataTable.columns.adjust().draw();
                 },
             }
         }
@@ -246,15 +246,15 @@ export default {
         datatable,
     },
     watch:{
-        filterFeeWaiverStatus: function(){
-            this.$refs.feewaiver_datatable.vmDataTable.draw();
+        filterLedgerPayStatus: function(){
+            this.$refs.ledgerpay_datatable.vmDataTable.draw();
         },
 
-        filterFeeWaiverLodgedFrom: function(){
-            this.$refs.feewaiver_datatable.vmDataTable.draw();
+        filterLedgerPayLodgedFrom: function(){
+            this.$refs.ledgerpay_datatable.vmDataTable.draw();
         },
-        filterFeeWaiverLodgedTo: function(){
-            this.$refs.feewaiver_datatable.vmDataTable.draw();
+        filterLedgerPayLodgedTo: function(){
+            this.$refs.ledgerpay_datatable.vmDataTable.draw();
         }
     },
     computed: {
@@ -264,7 +264,7 @@ export default {
             let vm = this;
 
             vm.$http.get(api_endpoints.filter_list).then((response) => {
-                vm.feewaiver_status = response.body.feewaiver_status_choices;
+                vm.ledgerpay_status = response.body.ledgerpay_status_choices;
             },(error) => {
             })
         },
@@ -273,39 +273,39 @@ export default {
             let processingTableStr = `.action-${id}`;
             let processingTable = $(processingTableStr);
             processingTable.replaceWith("<div><i class='fa fa-2x fa-spinner fa-spin'></i></div>");
-            let post_url = '/api/feewaivers/' + id + '/final_approval/'
+            let post_url = '/api/ledgerpays/' + id + '/final_approval/'
             let res = await Vue.http.post(post_url, {'approval_type': approvalType});
             if (res.ok) {
                 this.refreshFromResponse();
             }
         },
         refreshFromResponse: function(){
-            this.$refs.feewaiver_datatable.vmDataTable.ajax.reload();
+            this.$refs.ledgerpay_datatable.vmDataTable.ajax.reload();
         },
         addEventListeners: function(){
             let vm = this;
             // Initialise Proposal Date Filters
-            $(vm.$refs.feewaiverDateToPicker).datetimepicker(vm.datepickerOptions);
-            $(vm.$refs.feewaiverDateToPicker).on('dp.change', function(e){
-                if ($(vm.$refs.feewaiverDateToPicker).data('DateTimePicker').date()) {
-                    vm.filterFeeWaiverLodgedTo =  e.date.format('DD/MM/YYYY');
+            $(vm.$refs.ledgerpayDateToPicker).datetimepicker(vm.datepickerOptions);
+            $(vm.$refs.ledgerpayDateToPicker).on('dp.change', function(e){
+                if ($(vm.$refs.ledgerpayDateToPicker).data('DateTimePicker').date()) {
+                    vm.filterLedgerPayLodgedTo =  e.date.format('DD/MM/YYYY');
                 }
-                else if ($(vm.$refs.feewaiverDateToPicker).data('date') === "") {
-                    vm.filterFeeWaiverLodgedTo = "";
+                else if ($(vm.$refs.ledgerpayDateToPicker).data('date') === "") {
+                    vm.filterLedgerPayLodgedTo = "";
                 }
              });
-            $(vm.$refs.feewaiverDateFromPicker).datetimepicker(vm.datepickerOptions);
-            $(vm.$refs.feewaiverDateFromPicker).on('dp.change',function (e) {
-                if ($(vm.$refs.feewaiverDateFromPicker).data('DateTimePicker').date()) {
-                    vm.filterFeeWaiverLodgedFrom = e.date.format('DD/MM/YYYY');
-                    $(vm.$refs.feewaiverDateToPicker).data("DateTimePicker").minDate(e.date);
+            $(vm.$refs.ledgerpayDateFromPicker).datetimepicker(vm.datepickerOptions);
+            $(vm.$refs.ledgerpayDateFromPicker).on('dp.change',function (e) {
+                if ($(vm.$refs.ledgerpayDateFromPicker).data('DateTimePicker').date()) {
+                    vm.filterLedgerPayLodgedFrom = e.date.format('DD/MM/YYYY');
+                    $(vm.$refs.ledgerpayDateToPicker).data("DateTimePicker").minDate(e.date);
                 }
-                else if ($(vm.$refs.feewaiverDateFromPicker).data('date') === "") {
-                    vm.filterFeeWaiverLodgedFrom = "";
+                else if ($(vm.$refs.ledgerpayDateFromPicker).data('date') === "") {
+                    vm.filterLedgerPayLodgedFrom = "";
                 }
             });
             //Internal Action shortcut listeners
-            let table = vm.$refs.feewaiver_datatable.vmDataTable
+            let table = vm.$refs.ledgerpay_datatable.vmDataTable
             table.on('processing.dt', function(e) {
             })
             table.on('click', 'a[data-issue]', async function(e) {
@@ -347,10 +347,10 @@ export default {
         },
         dateSearch:function(){
             let vm = this;
-            vm.$refs.feewaiver_datatable.table.dataTableExt.afnFiltering.push(
+            vm.$refs.ledgerpay_datatable.table.dataTableExt.afnFiltering.push(
                 function(settings,data,dataIndex,original){
-                    let from = vm.filterFeeWaiverLodgedFrom;
-                    let to = vm.filterFeeWaiverLodgedTo;
+                    let from = vm.filterLedgerPayLodgedFrom;
+                    let to = vm.filterLedgerPayLodgedTo;
                     let val = original.lodgement_date;
 
                     if ( from == '' && to == ''){

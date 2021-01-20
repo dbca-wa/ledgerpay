@@ -3,12 +3,12 @@
         <i class='fa fa-5x fa-spinner fa-spin'></i>
     </div>
     <div v-else :class="containingClass">
-    <form id="feewaiver-form" @submit.prevent="submit">
+    <form id="ledgerpay-form" @submit.prevent="submit">
         <div v-if="!isInternal" class="panel panel-default headerbox">
             <strong>
                 <p>Welcome to the entry fee request waiver form. Please fill out the details in the form below and submit the form to the Department.  
                 You will be notified of the outcome of your request by email.</p>
-                <p>You can add multiple visits to the same fee waiver request by clicking add another visit prior to submitting</p>
+                <p>You can add multiple visits to the same ledger pay request by clicking add another visit prior to submitting</p>
 
             </strong>
         </div>
@@ -122,7 +122,7 @@
             :participantGroupList="participantGroupList"
             :parksList="parksList"
             :campingChoices="campingChoices"
-            :feeWaiverId="feeWaiverId"
+            :ledgerPayId="ledgerPayId"
             :canProcess="canProcess"
             :isInternal="isInternal"
             :readonly="readonly"
@@ -130,12 +130,12 @@
             />
         </div>
         <div v-if="isInternal">
-            <FormSection :formCollapse="false" label="Comments to applicant" :Index="'comments_to_applicant' + feeWaiverId">
+            <FormSection :formCollapse="false" label="Comments to applicant" :Index="'comments_to_applicant' + ledgerPayId">
                 <div class="form-group">
                     <div class="row">
                       <label class="col-sm-4 control-label">Comments</label>
                       <div class="col-sm-8">
-                          <textarea :disabled="readonly" class="form-control" v-model="feeWaiver.comments_to_applicant"/>
+                          <textarea :disabled="readonly" class="form-control" v-model="ledgerPay.comments_to_applicant"/>
                       </div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
         <div>
             <input type="hidden" name="csrfmiddlewaretoken" :value="csrf_token"/>
             <div class="row" style="margin-bottom: 50px">
-              <div v-if="feeWaiverId && canProcess" class="navbar navbar-fixed-bottom" style="background-color: #f5f5f5;">
+              <div v-if="ledgerPayId && canProcess" class="navbar navbar-fixed-bottom" style="background-color: #f5f5f5;">
                 <div class="navbar-inner">
                     <div class="container">
                       <p class="pull-right">
@@ -153,7 +153,7 @@
                     </div>
                 </div>
               </div>
-              <div v-else-if="!feeWaiverId" class="navbar navbar-fixed-bottom" style="background-color: #f5f5f5;">
+              <div v-else-if="!ledgerPayId" class="navbar navbar-fixed-bottom" style="background-color: #f5f5f5;">
                 <div class="navbar-inner">
                     <div class="container">
                       <p class="pull-right">
@@ -180,13 +180,13 @@
     require("select2/dist/css/select2.min.css");
     require("select2-bootstrap-theme/dist/select2-bootstrap.min.css");
     require("select2");
-    import VisitSection from "./feewaiver_visit.vue"
+    import VisitSection from "./ledgerpay_visit.vue"
     import FileField from '@/components/forms/filefield_immediate.vue'
 
     export default {
-        name: 'FeeWaiverForm',
+        name: 'LedgerPayForm',
         props:{
-            feeWaiverId:{
+            ledgerPayId:{
                 type: String,
                 //required: true,
             },
@@ -208,7 +208,7 @@
             return {
                 submitDisabled: true,
                 submitDisabledText: '',
-                feeWaiver: {},
+                ledgerPay: {},
                 uuid: 0,
                 showFormSpinner: false,
                 payload: {},
@@ -259,7 +259,7 @@
             },
             containingClass: function() {
                 let cclass = 'container';
-                if (this.feeWaiverId) {
+                if (this.ledgerPayId) {
                     //cclass = 'col-sm-12';
                     cclass = '';
                 }
@@ -269,11 +269,11 @@
                 let url = '';
                 if (this.contactDetails && this.contactDetails.id) {
                     url = helpers.add_endpoint_join(
-                        '/api/feewaivers/',
+                        '/api/ledgerpays/',
                         //this.contactDetails.id + '/process_contact_details_document/'
-                        this.feeWaiver.id + '/process_contact_details_document/'
+                        this.ledgerPay.id + '/process_contact_details_document/'
                     )
-                } else if (!this.feeWaiverId) {
+                } else if (!this.ledgerPayId) {
                     // internal view
                     url = 'temporary_document';
                 }
@@ -411,10 +411,10 @@
                         confirmButtonText: 'Submit'
                     });
                     try {
-                        const returnedFeeWaiver = await this.$http.post(api_endpoints.feewaivers,this.payload);
+                        const returnedLedgerPay = await this.$http.post(api_endpoints.ledgerpays,this.payload);
                         this.$router.push({
-                            name: 'submit_feewaiver',
-                            params: { fee_waiver: returnedFeeWaiver.body}
+                            name: 'submit_ledgerpay',
+                            params: { ledger_pay: returnedLedgerPay.body}
                         });
 
                     } catch (error) {
@@ -458,7 +458,7 @@
                 this.payload = {};
                 this.payload = {
                     'contact_details': Object.assign({}, this.contactDetails),
-                    'fee_waiver': Object.assign({}, this.feeWaiver),
+                    'ledger_pay': Object.assign({}, this.ledgerPay),
                     'visits': [],
                     'temporary_document_collection_id': this.temporary_document_collection_id,
                 }
@@ -478,16 +478,16 @@
             },
             save: async function(confirmSave=true) {
                 await this.updatePayload()
-                let url = `/api/feewaivers/${this.feeWaiverId}/assessor_save/`;
-                const feeWaiverRes = await this.$http.post(url, this.payload);
+                let url = `/api/ledgerpays/${this.ledgerPayId}/assessor_save/`;
+                const ledgerPayRes = await this.$http.post(url, this.payload);
                 if (confirmSave) {
                     swal(
                         'Saved',
-                        'Fee Waiver has been saved',
+                        'Ledger Pay has been saved',
                         'success'
                     );
                 }
-                return feeWaiverRes
+                return ledgerPayRes
             },
             fetchAdminData: async function() {
                 this.participantGroupList = [];
@@ -502,21 +502,21 @@
                     this.campingChoices.push(choice)
                 }
             },
-            loadFeeWaiverData: async function() {
-                const url = api_endpoints.feewaivers + this.feeWaiverId + '/feewaiver_contactdetails_pack/';
+            loadLedgerPayData: async function() {
+                const url = api_endpoints.ledgerpays + this.ledgerPayId + '/ledgerpay_contactdetails_pack/';
 
                 const returnVal = await this.$http.get(url);
-                this.feeWaiver.id = returnVal.body.fee_waiver.id;
-                this.feeWaiver.lodgement_number = returnVal.body.fee_waiver.lodgement_number;
-                this.feeWaiver.fee_waiver_purpose = returnVal.body.fee_waiver.fee_waiver_purpose;
-                this.feeWaiver.comments_to_applicant = returnVal.body.fee_waiver.comments_to_applicant;
-                this.feeWaiver.assigned_officer = returnVal.body.fee_waiver.assigned_officer;
-                this.feeWaiver.assigned_officer_id = returnVal.body.fee_waiver.assigned_officer_id;
-                this.feeWaiver.can_process = returnVal.body.fee_waiver.can_process;
+                this.ledgerPay.id = returnVal.body.ledger_pay.id;
+                this.ledgerPay.lodgement_number = returnVal.body.ledger_pay.lodgement_number;
+                this.ledgerPay.ledger_pay_purpose = returnVal.body.ledger_pay.ledger_pay_purpose;
+                this.ledgerPay.comments_to_applicant = returnVal.body.ledger_pay.comments_to_applicant;
+                this.ledgerPay.assigned_officer = returnVal.body.ledger_pay.assigned_officer;
+                this.ledgerPay.assigned_officer_id = returnVal.body.ledger_pay.assigned_officer_id;
+                this.ledgerPay.can_process = returnVal.body.ledger_pay.can_process;
                 // visits should be empty if reading from backend
                 this.visits = []
                 //this.visitIdx = -1;
-                for (let retrievedVisit of returnVal.body.fee_waiver.visits) {
+                for (let retrievedVisit of returnVal.body.ledger_pay.visits) {
                     let visit = Object.assign({}, retrievedVisit);
                     // we are now saving the index to db
                     visit.date_to = moment(visit.date_to, 'YYYY-MM-DD').format('DD/MM/YYYY');
@@ -541,7 +541,7 @@
         created: async function() {
             if (this.isInternal) {
                 this.showFormSpinner = true;
-                await this.loadFeeWaiverData();
+                await this.loadLedgerPayData();
                 await this.recalcVisitsFlag();
                 this.showFormSpinner = false;
             }

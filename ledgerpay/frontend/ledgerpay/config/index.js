@@ -3,12 +3,12 @@ var path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../../../static/feewaiver_vue/index.html'),
-    //assetsRoot: path.resolve(__dirname, '../../../static/feewaiver_vue'),
+    index: path.resolve(__dirname, '../../../static/ledgerpay_vue/index.html'),
+    //assetsRoot: path.resolve(__dirname, '../../../static/ledgerpay_vue'),
     assetsRoot: path.resolve(__dirname, '../../../static/'),
     //assetsSubDirectory: 'static',
     //assetsPublicPath: '/',
-    assetsSubDirectory: 'feewaiver_vue',
+    assetsSubDirectory: 'ledgerpay_vue',
     assetsPublicPath: '/static/',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
