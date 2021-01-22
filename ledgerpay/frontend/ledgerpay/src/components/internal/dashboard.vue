@@ -1,41 +1,43 @@
 <template id="proposal_dashboard">
     <div class="container">
+        <!--
         <FormSection :formCollapse="false" label="Ledger Pay Requests" Index="ledger_pay_requests">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label for="">Lodged From</label>
-                            <div class="input-group date" ref="ledgerpayDateFromPicker">
-                                <input type="text" class="form-control" placeholder="DD/MM/YYYY" v-model="filterLedgerPayLodgedFrom">
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">Lodged To</label>
-                            <div class="input-group date" ref="ledgerpayDateToPicker">
-                                <input type="text" class="form-control" placeholder="DD/MM/YYYY" v-model="filterLedgerPayLodgedTo">
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Status</label>
-                                <select class="form-control" v-model="filterLedgerPayStatus">
-                                    <option value="All">All</option>
-                                    <option v-for="s in ledgerpay_status" :value="s">{{s}}</option>
-                                </select>
-                            </div>
-                        </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="">Lodged From</label>
+                    <div class="input-group date" ref="ledgerpayDateFromPicker">
+                        <input type="text" class="form-control" placeholder="DD/MM/YYYY" v-model="filterLedgerPayLodgedFrom">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12" style="margin-top:25px;">
-                            <datatable ref="ledgerpay_datatable" :id="datatable_id" :dtOptions="ledgerpay_options" :dtHeaders="ledgerpay_headers"/>
-                        </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="">Lodged To</label>
+                    <div class="input-group date" ref="ledgerpayDateToPicker">
+                        <input type="text" class="form-control" placeholder="DD/MM/YYYY" v-model="filterLedgerPayLodgedTo">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
                     </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Status</label>
+                        <select class="form-control" v-model="filterLedgerPayStatus">
+                            <option value="All">All</option>
+                            <option v-for="s in ledgerpay_status" :value="s">{{s}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" style="margin-top:25px;">
+                    <datatable ref="ledgerpay_datatable" :id="datatable_id" :dtOptions="ledgerpay_options" :dtHeaders="ledgerpay_headers"/>
+                </div>
+            </div>
         </FormSection>
+        -->
         </div>
 </template>
 <script>
@@ -58,7 +60,7 @@ export default {
             url: '/api/ledgerpays_paginated/ledgerpay_internal/?format=datatables',
             pBody: 'pBody' + vm._uid,
             datatable_id: 'ledgerpay-datatable-'+vm._uid,
-            show_spinner: false, 
+            show_spinner: false,
             filterLedgerPayStatus: 'All',
             filterLedgerPayLodgedFrom: '',
             filterLedgerPayLodgedTo: '',
@@ -327,7 +329,7 @@ export default {
                     // the next line prevents from scrolling up to the top after clicking on the popover.
                     $(tablePopover).on('click', function (e) {
                         e.preventDefault();
-                        return true;   
+                        return true;
                     });
                 }
             }).on('draw.dt', function () {
@@ -337,7 +339,7 @@ export default {
                     // the next line prevents from scrolling up to the top after clicking on the popover.
                     $(tablePopover).on('click', function (e) {
                         e.preventDefault();
-                        return true;   
+                        return true;
                     });
                 }
             });
@@ -384,7 +386,7 @@ export default {
 
     },
     mounted: function(){
-		this.fetchFilterLists();
+        //this.fetchFilterLists();
         let vm = this;
         $( 'a[data-toggle="collapse"]' ).on( 'click', function () {
             var chev = $( this ).children()[ 0 ];
