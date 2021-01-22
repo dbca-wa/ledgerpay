@@ -3,8 +3,13 @@ from django.utils.encoding import python_2_unicode_compatible
 
 
 class GlobalSettings(models.Model):
-    keys = ((),)
-    default_values = ((),)
+    KEY_TEST = 'key_test'
+    keys = (
+        (KEY_TEST, 'Key test'),
+    )
+    default_values = (
+        (KEY_TEST, ''),
+    )
 
     key = models.CharField(max_length=255, choices=keys, blank=False, null=False, unique=True)
     value = models.CharField(max_length=255)

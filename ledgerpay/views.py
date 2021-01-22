@@ -25,7 +25,7 @@ class LedgerPayRoutingView(TemplateView):
 
 
 class InternalView(UserPassesTestMixin, TemplateView):
-    template_name = 'disturbance/dash/index.html'
+    template_name = 'ledgerpay/dash/index.html'
 
     def test_func(self):
         return is_internal(self.request)
