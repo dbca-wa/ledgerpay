@@ -6,6 +6,8 @@ from rest_framework import routers
 from ledgerpay import views, api
 
 from ledger.urls import urlpatterns as ledger_patterns
+
+from ledgerpay.admin import ledgerpay_admin_site
 from ledgerpay.management.default_data_manager import DefaultDataManager
 from ledgerpay.utils import are_migrations_running
 
@@ -27,6 +29,7 @@ api_patterns = [
 
 # URL Patterns
 urlpatterns = [
+                  url(r'^admin/', ledgerpay_admin_site.urls),
                   url(r'^ledger/admin/', admin.site.urls, name='ledger_admin'),
                   url(r'', include(api_patterns)),
                   url(r'^$', views.LedgerPayRoutingView.as_view(), name='ds_home'),
