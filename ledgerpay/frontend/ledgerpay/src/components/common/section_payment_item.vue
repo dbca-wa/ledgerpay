@@ -1,10 +1,10 @@
 <template>
     <div>
         <FormSection :formCollapse="false" label="Payment Item" Index="payment_item">
-            <template v-if="payment_items">
-                <div class="form-group row">
-                    <label class="col-sm-2">Payment Item</label>
-                    <select class="form-control col-sm-4" v-model="payment_item_selected">
+            <div class="form-group row">
+                <label class="col-sm-2">Payment Item</label>
+                <div class="col-sm-4">
+                    <select class="form-control" v-model="payment_item_selected">
                         <option value=""></option>
                         <option v-for="payment_item in payment_items" :value="payment_item" :key="payment_item.id">
                             <span>
@@ -13,7 +13,10 @@
                         </option>
                     </select>
                 </div>
-            </template>
+                <div class="col-sm-2 pull-right">
+                    <input :disabled="continue_button_disabled" type="button" value="Continue" class="btn btn-primary" />
+                </div>
+            </div>
         </FormSection>
     </div>
 </template>
@@ -47,6 +50,13 @@
             csrf_token: function() {
               return helpers.getCookie('csrftoken')
             },
+            continue_button_disabled: function(){
+                if (this.payment_item_selected){
+                    return false
+                } else {
+                    return true
+                }
+            }
         },
         methods:{
             fetchPaymentItems: function(){
