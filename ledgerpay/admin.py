@@ -8,6 +8,7 @@ from copy import deepcopy
 
 from ledgerpay import forms
 from ledgerpay.main_models import SystemMaintenance
+from ledgerpay.models import PaymentItem
 
 
 class LedgerPayAdminSite(AdminSite):
@@ -56,3 +57,8 @@ class SystemMaintenanceAdmin(admin.ModelAdmin):
     ordering = ('start_date',)
     readonly_fields = ('duration',)
     form = forms.SystemMaintenanceAdminForm
+
+
+@admin.register(PaymentItem)
+class PaymentItemAdmin(admin.ModelAdmin):
+    list_display = ('display_name', 'api_url',)
