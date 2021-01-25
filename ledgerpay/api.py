@@ -10,7 +10,7 @@ class PaymentItemViewSet(viewsets.ModelViewSet):
     queryset = PaymentItem.objects.all()
 
     @list_route(methods=['GET',])
-    def filter_list(self, request, *args, **kwargs):
+    def list_for_external(self, request, *args, **kwargs):
         payment_item_qs = self.get_queryset().filter(enabled=True)
         serializer = PaymentItemSerializer(payment_item_qs, many=True)
         return Response(serializer.data)
