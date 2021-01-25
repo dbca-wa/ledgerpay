@@ -1,6 +1,6 @@
 <template lang="html">
     <div>
-        This is ledgerpay_form.vue
+        This is external_home.vue
     </div>
 </template>
 

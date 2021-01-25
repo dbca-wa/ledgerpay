@@ -1,4 +1,4 @@
-import LedgerPayForm from '../../ledgerpay_form.vue'
+import LedgerPayForm from '../external_home.vue'
 export default
 {
     path: '/external',
