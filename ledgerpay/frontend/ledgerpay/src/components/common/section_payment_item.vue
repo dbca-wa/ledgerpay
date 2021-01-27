@@ -14,7 +14,13 @@
                     </select>
                 </div>
                 <div class="col-sm-2 pull-right">
-                    <input :disabled="continue_button_disabled" type="button" value="Continue" class="btn btn-primary" />
+                    <input
+                        :disabled="continue_button_disabled"
+                        @click="continue_clicked"
+                        type="button"
+                        value="Continue"
+                        class="btn btn-primary"
+                    />
                 </div>
             </div>
         </FormSection>
@@ -59,9 +65,22 @@
             }
         },
         methods:{
+            continue_clicked: function(){
+                let vm = this;
+                vm.$http.get('http://localhost:8072/ledgerpay').then((response) => {
+                    console.log(response)
+                    vm.payment_items = response.body;
+                },(error) => {
+                    console.log(error);
+                })
+            },
             fetchPaymentItems: function(){
                 let vm = this;
-                vm.$http.get('/api/payment_item/list_for_external').then((response) => {
+                //vm.$http.get('/api/payment_item/list_for_external').then((response) => {
+                vm.$http({
+                    url: 'http://localhost:8071/api/payment_item/list_for_external',
+                    method: 'GET',
+                }).then((response) => {
                     console.log(response)
                     vm.payment_items = response.body;
                 },(error) => {
