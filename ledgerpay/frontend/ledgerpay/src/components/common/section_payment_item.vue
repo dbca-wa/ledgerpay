@@ -33,6 +33,7 @@
     import FormSection from "@/components/forms/section_toggle.vue"
     import 'bootstrap/dist/css/bootstrap.css';
     import 'eonasdan-bootstrap-datetimepicker';
+    import axios from 'axios'
 
     export default {
         name: 'SectionPaymentItem-section-payment-item-vue',
@@ -67,12 +68,22 @@
         methods:{
             continue_clicked: function(){
                 let vm = this;
-                vm.$http.get('http://localhost:8072/ledgerpay').then((response) => {
-                    console.log(response)
-                    vm.payment_items = response.body;
-                },(error) => {
-                    console.log(error);
-                })
+                axios.get(vm.payment_item_selected.api_url).then(response => (console.log(response)))
+
+//                vm.$http.get('http://localhost:8072/ledgerpay').then((response) => {
+//                    console.log(response)
+//                    vm.payment_items = response.body;
+//                },(error) => {
+//                    console.log(error);
+//                })
+
+//                fetch('http://localhost:8072/ledgerpay').then(response => {
+//                    response.json()
+//                }).then(function(data){
+//                    console.log(data)
+//                })
+
+
             },
             fetchPaymentItems: function(){
                 let vm = this;
