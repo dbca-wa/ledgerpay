@@ -74,11 +74,11 @@
         methods:{
             continue_clicked: function(){
                 let vm = this;
-                //window.location = vm.payment_item_selected.api_url
-                axios.get(vm.payment_item_selected.api_url).then(response => {
-                    console.log(response)
-                    vm.test_contents = response.data
-                })
+                window.location = vm.payment_item_selected.api_url
+//                axios.get(vm.payment_item_selected.api_url).then(response => {
+//                    console.log(response)
+//                    vm.test_contents = response.data
+//                })
             },
             fetchPaymentItems: function(){
                 let vm = this;
