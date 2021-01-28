@@ -34,7 +34,7 @@
     import FormSection from "@/components/forms/section_toggle.vue"
     import 'bootstrap/dist/css/bootstrap.css';
     import 'eonasdan-bootstrap-datetimepicker';
-    import axios from 'axios'
+//    import axios from 'axios'
 
     export default {
         name: 'SectionPaymentItem-section-payment-item-vue',
