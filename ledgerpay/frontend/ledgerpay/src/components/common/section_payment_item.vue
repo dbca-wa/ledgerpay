@@ -24,6 +24,7 @@
                 </div>
             </div>
         </FormSection>
+        <div v-html="test_contents"></div>
     </div>
 </template>
 
@@ -45,13 +46,18 @@
             return {
                 payment_items: [],
                 payment_item_selected: null,
+                test_contents: '',
             }
         },
         components: {
             FormSection,
         },
         watch: {
-
+            payment_item_selected: function(){
+                if (!this.payment_item_selected){
+                    this.test_contents = ''
+                }
+            }
         },
         computed: {
             csrf_token: function() {
@@ -68,22 +74,11 @@
         methods:{
             continue_clicked: function(){
                 let vm = this;
-                axios.get(vm.payment_item_selected.api_url).then(response => (console.log(response)))
-
-//                vm.$http.get('http://localhost:8072/ledgerpay').then((response) => {
-//                    console.log(response)
-//                    vm.payment_items = response.body;
-//                },(error) => {
-//                    console.log(error);
-//                })
-
-//                fetch('http://localhost:8072/ledgerpay').then(response => {
-//                    response.json()
-//                }).then(function(data){
-//                    console.log(data)
-//                })
-
-
+                //window.location = vm.payment_item_selected.api_url
+                axios.get(vm.payment_item_selected.api_url).then(response => {
+                    console.log(response)
+                    vm.test_contents = response.data
+                })
             },
             fetchPaymentItems: function(){
                 let vm = this;
