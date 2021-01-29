@@ -1,8 +1,8 @@
 <template>
     <div>
-        <FormSection :formCollapse="false" label="Payment Item" Index="payment_item">
+        <FormSection :formCollapse="false" label="Payment" Index="payment_item">
             <div class="form-group row">
-                <label class="col-sm-2">Payment Item</label>
+                <label class="col-sm-3">What payment do you need to make?</label>
                 <div class="col-sm-4">
                     <select class="form-control" v-model="payment_item_selected">
                         <option value=""></option>
