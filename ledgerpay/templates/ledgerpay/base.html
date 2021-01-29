@@ -48,10 +48,10 @@
         {% block menu %}
             <div class="container-fluid">
                 <div class="row">
-                    {% if is_internal_login %}
                     <nav class="navbar navbar-default">
                         <div class="container">
                             <div class="navbar-header">
+                                {% if request.user.is_authenticated %}
                                 <a type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                                     <span class="sr-only">Toggle navigation</span>
                                     <span class="icon-bar"></span>
@@ -59,6 +59,7 @@
                                     <span class="icon-bar"></span>
                                 </a>
                                 <a class="navbar-brand" href="{% url 'ledgerpay_home' %}"><div style="inline"><img src="{% static 'ledgerpay/img/dpaw_small.png' %}">Home</div></a>
+                                {% endif %}
                             </div>
                             <div id="navbar" class="navbar-collapse collapse">
                                 <ul class="nav navbar-nav navbar-right">
@@ -112,7 +113,6 @@
                             </div>
                         </div>
                     </nav>
-                    {% endif %}
                 </div>
 
             </div>
@@ -132,13 +132,12 @@
                     </div>
                 </div>
             </div>
-
         {% endblock %}
 
-		{% if system_maintenance_due %}
-		    <div class="alert alert-warning">
-		    	<strong>Notice!</strong> System will be down for maintenance between {{ system_maintenance_due }}
-		    </div>
+        {% if system_maintenance_due %}
+            <div class="alert alert-warning">
+                <strong>Notice!</strong> System will be down for maintenance between {{ system_maintenance_due }}
+            </div>
         {% endif %}
 
         {% block content %}
