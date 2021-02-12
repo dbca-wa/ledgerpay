@@ -25,7 +25,7 @@ class LedgerPayRoutingView(TemplateView):
 
 
 class InternalView(UserPassesTestMixin, TemplateView):
-    template_name = 'disturbance/dash/index.html'
+    template_name = 'ledgerpay/dash/index.html'
 
     def test_func(self):
         return is_internal(self.request)
@@ -34,6 +34,7 @@ class InternalView(UserPassesTestMixin, TemplateView):
         context = super(InternalView, self).get_context_data(**kwargs)
         context['dev'] = settings.DEV_STATIC
         context['dev_url'] = settings.DEV_STATIC_URL
+        context['build_tag'] = settings.BUILD_TAG
         if hasattr(settings, 'DEV_APP_BUILD_URL') and settings.DEV_APP_BUILD_URL:
             context['app_build_url'] = settings.DEV_APP_BUILD_URL
         return context
@@ -46,6 +47,7 @@ class ExternalView(TemplateView):
         context = super(ExternalView, self).get_context_data(**kwargs)
         context['dev'] = settings.DEV_STATIC
         context['dev_url'] = settings.DEV_STATIC_URL
+        context['build_tag'] = settings.BUILD_TAG
         if hasattr(settings, 'DEV_APP_BUILD_URL') and settings.DEV_APP_BUILD_URL:
             context['app_build_url'] = settings.DEV_APP_BUILD_URL
         return context

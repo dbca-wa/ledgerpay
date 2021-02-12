@@ -78,14 +78,16 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'ledgerpay', 'cache'),
     }
 }
-STATIC_ROOT=os.path.join(BASE_DIR, 'staticfiles_lp')
-STATICFILES_DIRS.append(os.path.join(os.path.join(BASE_DIR, 'ledgerpay', 'static')))
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_lp')
+aho = os.path.join(os.path.join(BASE_DIR, 'ledgerpay', 'static'))
+STATICFILES_DIRS.append(aho)
 DEV_STATIC = env('DEV_STATIC',False)
 DEV_STATIC_URL = env('DEV_STATIC_URL')
 if DEV_STATIC and not DEV_STATIC_URL:
     raise ImproperlyConfigured('If running in DEV_STATIC, DEV_STATIC_URL has to be set')
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 DEV_APP_BUILD_URL = env('DEV_APP_BUILD_URL')  # URL of the Dev app.js served by webpack & express
+BUILD_TAG = env('BUILD_TAG', '0.0.0')  # URL of the Dev app.js served by webpack & express
 
 # Department details
 SYSTEM_NAME = env('SYSTEM_NAME', 'Leger Pay')

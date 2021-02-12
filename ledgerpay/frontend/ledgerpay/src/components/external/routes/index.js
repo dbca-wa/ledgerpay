@@ -1,5 +1,4 @@
-import LedgerPayForm from '../../ledgerpay_form.vue'
-import LedgerPaySubmit from '../ledgerpay_submit.vue'
+import LedgerPayForm from '../external_home.vue'
 export default
 {
     path: '/external',
@@ -15,11 +14,6 @@ export default
             path: '/',
             component: LedgerPayForm,
             name: 'external-ledgerpay-form'
-        },
-        {
-            path: 'submit',
-            component: LedgerPaySubmit,
-            name:"submit_ledgerpay"
         },
     ]
 }
