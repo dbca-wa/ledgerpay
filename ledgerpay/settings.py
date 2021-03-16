@@ -79,8 +79,7 @@ CACHES = {
     }
 }
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_lp')
-aho = os.path.join(os.path.join(BASE_DIR, 'ledgerpay', 'static'))
-STATICFILES_DIRS.append(aho)
+STATICFILES_DIRS.append(os.path.join(os.path.join(BASE_DIR, 'ledgerpay', 'static')))
 DEV_STATIC = env('DEV_STATIC',False)
 DEV_STATIC_URL = env('DEV_STATIC_URL')
 if DEV_STATIC and not DEV_STATIC_URL:
