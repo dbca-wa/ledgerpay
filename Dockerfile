@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Perth
 ENV PRODUCTION_EMAIL=False
 ENV EMAIL_INSTANCE="DEV"
-ENV NON_PROD_EMAIL="brendan.blackford@dbca.wa.gov.au,walter.genuit@dbca.wa.gov.au,aaron.farr@dbca.wa.gov.au"
+ENV NON_PROD_EMAIL="katsufumi.shibata@dbca.wa.gov.au,brendan.blackford@dbca.wa.gov.au,walter.genuit@dbca.wa.gov.au,"
 ENV SECRET_KEY="ThisisNotRealKey"
 
 # For app.js, manifest.js, vendor.js versioning (default value set to 0.0.0)
@@ -57,7 +57,7 @@ rm /app/libgeos.py.patch
 # Install the project (ensure that frontend projects have been built prior to this step).
 FROM python_libs_ledgerpay
 
-COPY gunicorn.ini manage_fw.py ./
+COPY gunicorn.ini manage_lp.py ./
 #COPY ledger ./ledger
 COPY timezone /etc/timezone
 ENV TZ=Australia/Perth
@@ -65,7 +65,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
 touch /app/.env
 COPY .git ./.git
 COPY ledgerpay ./ledgerpay
-RUN python manage_fw.py collectstatic --noinput && \
+RUN python manage_lp.py collectstatic --noinput && \
 mkdir /app/tmp/ && \
 chmod 777 /app/tmp/
 
